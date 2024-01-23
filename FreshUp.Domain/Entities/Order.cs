@@ -10,5 +10,4 @@ public sealed class Order : Auditable
     public Status Status { get; set; }
 
     public ICollection<OrderList> OrderLists { get; set; }  
-    public OrderList OrderList { get; set; }
 }

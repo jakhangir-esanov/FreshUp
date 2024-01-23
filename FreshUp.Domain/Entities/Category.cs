@@ -8,5 +8,4 @@ public sealed class Category : Auditable
     public string Description { get; set; }
 
     public ICollection<Product> Products { get; set; }
-    public Product Product { get; set; }    
 }
