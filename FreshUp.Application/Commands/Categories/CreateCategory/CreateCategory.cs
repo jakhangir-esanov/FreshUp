@@ -1,9 +1,4 @@
-﻿using FreshUp.Application.Interfaces;
-using FreshUp.Domain.Exceptions;
-using FreshUp.Domain.Entities;
-using MediatR;
-
-namespace FreshUp.Application.Commands.Categories.CreateCategory;
+﻿namespace FreshUp.Application.Commands.Categories.CreateCategory;
 
 public record CreateCategoryCommand : IRequest<Category>
 {
