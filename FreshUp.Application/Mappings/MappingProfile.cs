@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-
-namespace FreshUp.Application.Mappings;
+﻿namespace FreshUp.Application.Mappings;
 
 public class MappingProfile : Profile
 {

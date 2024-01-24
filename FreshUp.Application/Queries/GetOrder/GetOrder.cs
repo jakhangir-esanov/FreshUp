@@ -1,12 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+namespace FreshUp.Application.Queries.GetOrder;
 
-namespace FreshUp.Application.Queries.GetOrder
+public record GetOrderQuery : IRequest<OrderResultDto>
 {
-    internal class GetOrder
+    public long Id { get; set; }
+}
+
+public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, OrderResultDto>
+{
+    private readonly IRepository<Order> repository;
+    private readonly IMapper mapper;
+    public GetOrderQueryHandler(IRepository<Order> repository, IMapper mapper)
     {
+        this.repository = repository;
+        this.mapper = mapper;
+    }
+
+    public async Task<OrderResultDto> Handle(GetOrderQuery request, CancellationToken cancellationToken)
+    {
+        var order = await this.repository.SelectAsync(x => x.Id.Equals(request.Id), includes: new[] { "OrderLists" })
+            ?? throw new NotFoundException("Order was not found!");
+
+        return mapper.Map<OrderResultDto>(order);
     }
 }
