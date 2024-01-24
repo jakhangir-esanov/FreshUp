@@ -10,8 +10,6 @@
     <Folder Include="Commons\Behaviours\" />
     <Folder Include="Commons\Exceptions\" />
     <Folder Include="Extentions\" />
-    <Folder Include="Mappings\" />
-    <Folder Include="Queries\" />
   </ItemGroup>
 
   <ItemGroup>
