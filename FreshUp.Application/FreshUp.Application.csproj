@@ -6,4 +6,41 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\Categories\DeleteCategory\" />
+    <Folder Include="Commands\Categories\UpdateCategory\" />
+    <Folder Include="Commands\Inventories\CreateInventory\" />
+    <Folder Include="Commands\Inventories\DeleteInventory\" />
+    <Folder Include="Commands\Inventories\UpdateInventory\" />
+    <Folder Include="Commands\OrderLists\CreateOrderList\" />
+    <Folder Include="Commands\OrderLists\DeleteOrderList\" />
+    <Folder Include="Commands\OrderLists\UpdateOrderList\" />
+    <Folder Include="Commands\Orders\CreateOrder\" />
+    <Folder Include="Commands\Orders\DeleteOrder\" />
+    <Folder Include="Commands\Orders\UpdateOrder\" />
+    <Folder Include="Commands\Products\CreateProduct\" />
+    <Folder Include="Commands\Products\DeleteProduct\" />
+    <Folder Include="Commands\Products\UpdateProduct\" />
+    <Folder Include="Commands\Users\CreateUser\" />
+    <Folder Include="Commands\Users\DeleteUser\" />
+    <Folder Include="Commands\Users\UpdateUser\" />
+    <Folder Include="Commons\Behaviours\" />
+    <Folder Include="Commons\Exceptions\" />
+    <Folder Include="DTOs\" />
+    <Folder Include="Extentions\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Mappings\" />
+    <Folder Include="Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjectionFixed" Version="5.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FreshUp.Domain\FreshUp.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
