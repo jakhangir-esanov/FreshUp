@@ -1,5 +1,4 @@
 ﻿using FreshUp.Domain.Commons;
-using FreshUp.Domain.Enums;
 
 namespace FreshUp.Domain.Entities;
 
