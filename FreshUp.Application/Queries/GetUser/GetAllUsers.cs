@@ -4,11 +4,11 @@ public record GetAllUsersQuery : IRequest<IEnumerable<UserResultDto>>
 {
 }
 
-public class GetAllUserQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserResultDto>>
+public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserResultDto>>
 {
     private readonly IRepository<User> repository;
     private readonly IMapper mapper;
-    public GetAllUserQueryHandler(IRepository<User> repository, IMapper mapper)
+    public GetAllUsersQueryHandler(IRepository<User> repository, IMapper mapper)
     {
         this.repository = repository;
         this.mapper = mapper;
