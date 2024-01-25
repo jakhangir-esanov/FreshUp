@@ -1,6 +1,12 @@
+using Serilog;
+using FluentValidation;
+using FreshUp.WebApi.Extentions;
+using FreshUp.Application.Mappings;
+using FreshUp.Application.Interfaces;
 using FreshUp.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
+using FreshUp.Infrastructure.Repositories;
+using FreshUp.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +21,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(option
     => option.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//MediatR
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+
 //Logger
 var logger = new LoggerConfiguration()
         .ReadFrom.Configuration(builder.Configuration)
@@ -23,18 +32,34 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
+//ServiceCollection
+builder.Services.AddServices();
+
+//AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+//FluentValidation
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
+//Repository
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.MapControllers();
 
