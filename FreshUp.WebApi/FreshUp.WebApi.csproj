@@ -23,4 +23,8 @@
     <ProjectReference Include="..\FreshUp.Infrastructure\FreshUp.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
+
 </Project>

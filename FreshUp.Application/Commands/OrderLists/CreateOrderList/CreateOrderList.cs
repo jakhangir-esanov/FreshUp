@@ -31,7 +31,7 @@ public class CreateOrderListCommandHandler : IRequestHandler<CreateOrderListComm
 
     public async Task<OrderList> Handle(CreateOrderListCommand request, CancellationToken cancellationToken)
     {
-        var orderList = await this.repository.SelectAsync(x => x.ProductId.Equals(request.ProductId));
+        var orderList = await this.repository.SelectAsync(x => x.OrderId.Equals(request.OrderId));
         if (orderList is not null)
             throw new AlreadyExistException("OrderList is already exist!");
 
