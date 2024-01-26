@@ -98,8 +98,6 @@ namespace FreshUp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
                     b.ToTable("InventoryHistories");
                 });
 
@@ -247,17 +245,6 @@ namespace FreshUp.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("FreshUp.Domain.Entities.Inventory", b =>
-                {
-                    b.HasOne("FreshUp.Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("FreshUp.Domain.Entities.InventoryHistory", b =>
                 {
                     b.HasOne("FreshUp.Domain.Entities.Product", "Product")
                         .WithMany()

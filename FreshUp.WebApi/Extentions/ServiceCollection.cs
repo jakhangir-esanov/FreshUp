@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using FreshUp.Application.Queries.GetInventoryHistory;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -44,6 +45,9 @@ public static class ServiceCollection
         services.AddTransient<IRequestHandler<UpdateUserCommand, User>, UpdateUserCommandHandler>();
         services.AddTransient<IRequestHandler<GetUserQuery, UserResultDto>, GetUserQueryHandler>();
         services.AddTransient<IRequestHandler<GetAllUsersQuery, IEnumerable<UserResultDto>>, GetAllUsersQueryHandler>();
+
+        services.AddTransient<IRequestHandler<GetInventoryHistoryQuery, InventoryHistoryResultDto>, GetInventoryHistoryQueryHandler>();
+        services.AddTransient<IRequestHandler<GetAllInventoryHistoriesQuery, IEnumerable<InventoryHistoryResultDto>>, GetAllInventoryHistoriesQueryHandler>();
     }
 
     public static void AddJwt(this IServiceCollection services, IConfiguration configuration)

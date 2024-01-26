@@ -33,13 +33,17 @@ public class UpdateInventoryCommandHandler : IRequestHandler<UpdateInventoryComm
         inventory.ProductId = request.ProductId;
         inventory.Quantity = request.Quantity;
 
-        var newInventoryHistory = new InventoryHistory()
+        if (request.Quantity - inventory.Quantity > 0)
         {
-            ProductId = request.ProductId,
-            Quantity = request.Quantity,
-        };
+            var newInventoryHistory = new InventoryHistory()
+            {
+                ProductId = request.ProductId,
+                Quantity = request.Quantity - inventory.Quantity
+            };
 
-        await this.inventoryHistoryRepository.InsertAsync(newInventoryHistory);
+            await this.inventoryHistoryRepository.InsertAsync(newInventoryHistory);
+        }
+
         this.repository.Update(inventory);
         await this.repository.SaveAsync();
 

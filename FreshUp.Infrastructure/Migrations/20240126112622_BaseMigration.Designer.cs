@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FreshUp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240126093812_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240126112622_BaseMigration")]
+    partial class BaseMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,8 +100,6 @@ namespace FreshUp.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("InventoryHistories");
                 });
@@ -250,17 +248,6 @@ namespace FreshUp.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("FreshUp.Domain.Entities.Inventory", b =>
-                {
-                    b.HasOne("FreshUp.Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("FreshUp.Domain.Entities.InventoryHistory", b =>
                 {
                     b.HasOne("FreshUp.Domain.Entities.Product", "Product")
                         .WithMany()

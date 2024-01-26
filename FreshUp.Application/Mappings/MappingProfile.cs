@@ -6,6 +6,7 @@ public class MappingProfile : Profile
     {
         CreateMap<CategoryResultDto, Category>().ReverseMap();
         CreateMap<InventoryResultDto, Inventory>().ReverseMap();
+        CreateMap<InventoryHistoryResultDto, InventoryHistory>().ReverseMap();
         CreateMap<OrderResultDto, Order>().ReverseMap();
         CreateMap<OrderListResultDto, OrderList>().ReverseMap();
         CreateMap<ProductResultDto, Product>().ReverseMap();
