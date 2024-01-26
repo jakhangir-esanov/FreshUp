@@ -4,11 +4,7 @@ public class UpdateOrderListCommandValidation : AbstractValidator<UpdateOrderLis
 {
     public UpdateOrderListCommandValidation()
     {
-        RuleFor(x => x.ProductName).NotEmpty().NotNull().WithMessage("This field is required!")
-            .MinimumLength(3)
-            .MaximumLength(50);
         RuleFor(x => x.Quantity).NotEmpty().NotNull();
-        RuleFor(x => x.Price).NotEmpty().NotNull();
         RuleFor(x => x.ProductId).NotEmpty().NotNull();
         RuleFor(x => x.OrderId).NotEmpty().NotNull();
     }
