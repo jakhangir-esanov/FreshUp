@@ -7,6 +7,7 @@ using FreshUp.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using FreshUp.Infrastructure.Repositories;
 using FreshUp.WebApi.Middlewares;
+using FreshUp.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Extention for Swagger
+builder.Services.ConfigureSwagger();
 
 //AppDbContext
 builder.Services.AddDbContext<AppDbContext>(option
@@ -43,6 +47,12 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 //Repository
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+//AuthService
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+//JWT
+builder.Services.AddJwt(builder.Configuration);
 
 var app = builder.Build();
 

@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
 
     public DbSet<Category> Categories { get; set; }
     public DbSet<Inventory> Inventories { get; set; }
+    public DbSet<InventoryHistory> InventoryHistories { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderList> OrderLists { get; set; }
     public DbSet<Product> Products { get; set; }

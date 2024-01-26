@@ -3,7 +3,8 @@ namespace FreshUp.Application.Commands.OrderLists.CreateOrderList;
 
 public record CreateOrderListCommand : IRequest<OrderList>
 {
-    public CreateOrderListCommand(string productName, double quantity, double price, long productId, long orderId)
+    public CreateOrderListCommand(string productName, double quantity, 
+        double price, long productId, long orderId)
     {
         ProductName = productName;
         Quantity = quantity;
@@ -22,10 +23,12 @@ public record CreateOrderListCommand : IRequest<OrderList>
 public class CreateOrderListCommandHandler : IRequestHandler<CreateOrderListCommand, OrderList>
 {
     private readonly IRepository<OrderList> repository;
-
-    public CreateOrderListCommandHandler(IRepository<OrderList> repository)
+    private readonly IRepository<Inventory> inventoryRepository;
+    public CreateOrderListCommandHandler(IRepository<OrderList> repository, 
+        IRepository<Inventory> inventoryRepository)
     {
         this.repository = repository;
+        this.inventoryRepository = inventoryRepository;
     }
 
     public async Task<OrderList> Handle(CreateOrderListCommand request, CancellationToken cancellationToken)
@@ -33,6 +36,12 @@ public class CreateOrderListCommandHandler : IRequestHandler<CreateOrderListComm
         var orderList = await this.repository.SelectAsync(x => x.ProductId.Equals(request.ProductId));
         if (orderList is not null)
             throw new AlreadyExistException("OrderList is already exist!");
+
+        var amount = await this.inventoryRepository.SelectAsync(x => x.ProductId.Equals(request.ProductId));
+        if (amount.Quantity - request.Quantity < 0)
+            throw new CustomException(429, "Bu maxsulot yetarlicha emas!");
+        
+        amount.Quantity = amount.Quantity - request.Quantity;
 
         var newOrderList = new OrderList()
         {
@@ -43,8 +52,10 @@ public class CreateOrderListCommandHandler : IRequestHandler<CreateOrderListComm
             OrderId = request.OrderId
         };
 
+        this.inventoryRepository.Update(amount);
         await this.repository.InsertAsync(newOrderList);
         await this.repository.SaveAsync();
+
 
         return newOrderList;
     }

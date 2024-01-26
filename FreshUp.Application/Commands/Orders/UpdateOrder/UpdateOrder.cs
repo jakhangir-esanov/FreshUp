@@ -21,10 +21,12 @@ public record UpdateOrderCommand : IRequest<Order>
 public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, Order>
 {
     private readonly IRepository<Order> repository;
-
-    public UpdateOrderCommandHandler(IRepository<Order> repository)
+    private readonly IRepository<OrderList> orderListRepository;
+    public UpdateOrderCommandHandler(IRepository<Order> repository, 
+        IRepository<OrderList> orderListRepository)
     {
         this.repository = repository;
+        this.orderListRepository = orderListRepository;
     }
 
     public async Task<Order> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
@@ -32,8 +34,17 @@ public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, Ord
         var order = await this.repository.SelectAsync(x => x.Id.Equals(request.Id))
             ?? throw new NotFoundException("Order was not found!");
 
+        List<OrderList> orderList = this.orderListRepository.SelectAll(x => x.OrderId.Equals(request.Id)).ToList()
+            ?? throw new NotFoundException("Order was not found!");
+
+        double totalAmount = 0;
+
+        foreach (var i in orderList)
+            totalAmount += i.Price;
+
+
         order.OrderDate = request.OrderDate;
-        order.TotalAmount = request.TotalAmount;
+        order.TotalAmount = totalAmount;
         order.Status = request.Status;
 
         this.repository.Update(order);

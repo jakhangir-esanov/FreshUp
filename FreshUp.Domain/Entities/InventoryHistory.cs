@@ -2,7 +2,7 @@
 
 namespace FreshUp.Domain.Entities;
 
-public sealed class Inventory : Auditable
+public class InventoryHistory : Auditable
 {
     public long ProductId { get; set; }
     public Product Product { get; set; }
