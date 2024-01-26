@@ -15,11 +15,11 @@ public class OrderController : ControllerBase
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateAsync(CreateOrderCommand command)
-        => Ok(await this.mediator.Send(new CreateOrderCommand(command.OrderDate, command.TotalAmount, command.Status)));
+        => Ok(await this.mediator.Send(new CreateOrderCommand(command.OrderDate, command.Status)));
 
     [HttpPut("update")]
     public async Task<IActionResult> UpdateAsync(UpdateOrderCommand command)
-        => Ok(await this.mediator.Send(new UpdateOrderCommand(command.Id, command.OrderDate, command.TotalAmount, command.Status)));
+        => Ok(await this.mediator.Send(new UpdateOrderCommand(command.Id, command.OrderDate, command.Status)));
 
     [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)

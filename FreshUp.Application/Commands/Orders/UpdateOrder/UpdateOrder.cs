@@ -32,14 +32,15 @@ public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, Ord
         var order = await this.repository.SelectAsync(x => x.Id.Equals(request.Id))
             ?? throw new NotFoundException("Order was not found!");
 
-        List<OrderList> orderList = this.orderListRepository.SelectAll(x => x.OrderId.Equals(request.Id)).ToList()
+        var orderList = this.orderListRepository.SelectAll(x => x.OrderId.Equals(request.Id)).ToList()
             ?? throw new NotFoundException("Order was not found!");
 
         double totalAmount = 0;
-
-        foreach (var i in orderList)
-            totalAmount += i.Price;
-
+        
+        foreach(var item in orderList)
+        {
+            totalAmount += item.Price;
+        }
 
         order.OrderDate = request.OrderDate;
         order.TotalAmount = totalAmount;
