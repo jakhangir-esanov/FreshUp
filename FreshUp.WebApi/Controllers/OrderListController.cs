@@ -15,13 +15,13 @@ public class OrderListController : ControllerBase
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateAsync(CreateOrderListCommand command)
-        => Ok(await this.mediator.Send(new CreateOrderListCommand(command.ProductName, command.Quantity,
-            command.Price, command.ProductId, command.OrderId)));
+        => Ok(await this.mediator.Send(new CreateOrderListCommand(command.Quantity,
+           command.ProductId, command.OrderId)));
 
     [HttpPut("update")]
     public async Task<IActionResult> UpdateAsync(UpdateOrderListCommand command)
-        => Ok(await this.mediator.Send(new UpdateOrderListCommand(command.Id, command.ProductName,
-            command.Quantity, command.Price, command.ProductId, command.OrderId)));
+        => Ok(await this.mediator.Send(new UpdateOrderListCommand(command.Id,
+            command.Quantity, command.ProductId, command.OrderId)));
 
     [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)

@@ -3,19 +3,14 @@ namespace FreshUp.Application.Commands.OrderLists.CreateOrderList;
 
 public record CreateOrderListCommand : IRequest<OrderList>
 {
-    public CreateOrderListCommand(string productName, double quantity, 
-        double price, long productId, long orderId)
+    public CreateOrderListCommand(double quantity, 
+        long productId, long orderId)
     {
-        ProductName = productName;
         Quantity = quantity;
-        Price = price;
         ProductId = productId;
         OrderId = orderId;
     }
-
-    public string ProductName { get; set; }
     public double Quantity { get; set; }
-    public double Price { get; set; }
     public long ProductId { get; set; }
     public long OrderId { get; set; }
 }
@@ -24,11 +19,14 @@ public class CreateOrderListCommandHandler : IRequestHandler<CreateOrderListComm
 {
     private readonly IRepository<OrderList> repository;
     private readonly IRepository<Inventory> inventoryRepository;
-    public CreateOrderListCommandHandler(IRepository<OrderList> repository, 
-        IRepository<Inventory> inventoryRepository)
+    private readonly IRepository<Product> productRepository;
+    public CreateOrderListCommandHandler(IRepository<OrderList> repository,
+        IRepository<Inventory> inventoryRepository,
+        IRepository<Product> productRepository)
     {
         this.repository = repository;
         this.inventoryRepository = inventoryRepository;
+        this.productRepository = productRepository;
     }
 
     public async Task<OrderList> Handle(CreateOrderListCommand request, CancellationToken cancellationToken)
@@ -40,14 +38,17 @@ public class CreateOrderListCommandHandler : IRequestHandler<CreateOrderListComm
         var amount = await this.inventoryRepository.SelectAsync(x => x.ProductId.Equals(request.ProductId));
         if (amount.Quantity - request.Quantity < 0)
             throw new CustomException(429, "Bu maxsulot yetarlicha emas!");
-        
+
+        var product = await this.productRepository.SelectAsync(x => x.Id.Equals(request.ProductId))
+            ?? throw new NotFoundException("This product was not found!");
+
         amount.Quantity = amount.Quantity - request.Quantity;
 
         var newOrderList = new OrderList()
         {
-            ProductName = request.ProductName,
+            ProductName = product.Name,
             Quantity = request.Quantity,
-            Price = request.Price,
+            Price = product.Price * request.Quantity,
             ProductId = request.ProductId,
             OrderId = request.OrderId
         };
