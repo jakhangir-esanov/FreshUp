@@ -4,17 +4,15 @@ namespace FreshUp.Application.Commands.Orders.UpdateOrder;
 
 public record UpdateOrderCommand : IRequest<Order>
 {
-    public UpdateOrderCommand(long id, DateTime orderDate, double totalAmount, Status status)
+    public UpdateOrderCommand(long id, DateTime orderDate, Status status)
     {
         Id = id;
         OrderDate = orderDate;
-        TotalAmount = totalAmount;
         Status = status;
     }
 
     public long Id { get; set; }
     public DateTime OrderDate { get; set; } = DateTime.UtcNow;
-    public double TotalAmount { get; set; }
     public Status Status { get; set; }
 }
 

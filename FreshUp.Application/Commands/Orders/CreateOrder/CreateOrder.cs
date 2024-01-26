@@ -4,14 +4,12 @@ namespace FreshUp.Application.Commands.Orders.CreateOrder;
 
 public record CreateOrderCommand : IRequest<Order>
 {
-    public CreateOrderCommand(DateTime orderDate, double totalAmount, Status status)
+    public CreateOrderCommand(DateTime orderDate, Status status)
     {
         OrderDate = orderDate;
-        TotalAmount = totalAmount;
         Status = status;
     }
     public DateTime OrderDate { get; set; } = DateTime.UtcNow;
-    public double TotalAmount { get; set; }
     public Status Status { get; set; }
 }
 
@@ -33,7 +31,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Ord
         var newOrder = new Order()
         {
             OrderDate = request.OrderDate,
-            TotalAmount = request.TotalAmount,
+            TotalAmount = 0,
             Status = request.Status
         };
 
