@@ -15,7 +15,10 @@
 *.userprefs
 
 #wwwroot
-/wwwroot/
+**/wwwroot/
+
+#Files
+**/Files/
 
 # Mono auto generated files
 mono_crash.*

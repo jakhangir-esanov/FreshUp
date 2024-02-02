@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FreshUp.Infrastructure.Repositories;
 using FreshUp.WebApi.Middlewares;
 using FreshUp.WebApi.Services;
+using FreshUp.Application.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,9 @@ builder.Services.AddSwaggerGen();
 
 //Extention for Swagger
 builder.Services.ConfigureSwagger();
+
+//PathRoot
+PathHelper.WebRootPath = Path.GetFullPath("wwwroot");
 
 //AppDbContext
 builder.Services.AddDbContext<AppDbContext>(option

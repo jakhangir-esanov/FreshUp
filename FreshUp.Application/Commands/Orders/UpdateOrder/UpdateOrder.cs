@@ -1,4 +1,6 @@
-﻿using FreshUp.Domain.Enums;
+﻿using FreshUp.Application.Helpers;
+using FreshUp.Domain.Enums;
+using MediatR;
 using System.Runtime.CompilerServices;
 
 namespace FreshUp.Application.Commands.Orders.UpdateOrder;
@@ -21,7 +23,6 @@ public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, Ord
 {
     private readonly IRepository<Order> repository;
     private readonly IRepository<OrderList> orderListRepository;
-    private const string filePath = "C:\\Programming\\VisualStudio\\FreshUp\\FreshUp.Application\\Files";
     public UpdateOrderCommandHandler(IRepository<Order> repository, 
         IRepository<OrderList> orderListRepository)
     {
@@ -58,7 +59,12 @@ public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, Ord
 
     private void WriteOrderListToFile(List<OrderList> orderList, string fileName,double totalAmount)
     {
-        string fullPath = Path.Combine(filePath, $"{fileName}-order.txt");
+        var webrootPath = Path.Combine(PathHelper.WebRootPath, "Files");
+
+        if (!Directory.Exists(webrootPath))
+            Directory.CreateDirectory(webrootPath);
+
+        string fullPath = Path.Combine(webrootPath, $"{fileName}-order.txt");
         using (StreamWriter writer = new StreamWriter(fullPath))
         {
             int c = 1;
