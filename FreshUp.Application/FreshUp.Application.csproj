@@ -19,8 +19,4 @@
     <ProjectReference Include="..\FreshUp.Domain\FreshUp.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Files\" />
-  </ItemGroup>
-
 </Project>
