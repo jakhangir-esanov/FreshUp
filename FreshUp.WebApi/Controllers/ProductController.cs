@@ -16,12 +16,12 @@ public class ProductController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateAsync(CreateProductCommand command)
         => Ok(await this.mediator.Send(new CreateProductCommand(command.Name, command.Price,
-            command.Unit, command.Description, command.CategoryId)));
+            command.Volume, command.Unit, command.Description, command.CategoryId)));
 
     [HttpPut("update")]
     public async Task<IActionResult> UpdateAsync(UpdateProductCommand command)
         => Ok(await this.mediator.Send(new UpdateProductCommand(command.Id, command.Name,
-            command.Price, command.Unit, command.Description, command.CategoryId)));
+            command.Price, command.Volume, command.Unit, command.Description, command.CategoryId)));
 
     [HttpDelete("delete/{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)

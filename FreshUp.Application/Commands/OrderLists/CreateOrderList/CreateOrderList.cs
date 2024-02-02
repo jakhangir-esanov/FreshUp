@@ -1,15 +1,16 @@
 ﻿
+
 namespace FreshUp.Application.Commands.OrderLists.CreateOrderList;
 
 public record CreateOrderListCommand : IRequest<OrderList>
 {
-    public CreateOrderListCommand(double quantity, 
-        long productId, long orderId)
+    public CreateOrderListCommand(double quantity, long productId, long orderId)
     {
         Quantity = quantity;
         ProductId = productId;
         OrderId = orderId;
     }
+
     public double Quantity { get; set; }
     public long ProductId { get; set; }
     public long OrderId { get; set; }
@@ -31,7 +32,7 @@ public class CreateOrderListCommandHandler : IRequestHandler<CreateOrderListComm
 
     public async Task<OrderList> Handle(CreateOrderListCommand request, CancellationToken cancellationToken)
     {
-        var orderList = await this.repository.SelectAsync(x => x.OrderId.Equals(request.OrderId));
+        var orderList = await this.repository.SelectAsync(x => x.ProductId.Equals(request.ProductId));
         if (orderList is not null)
             throw new AlreadyExistException("OrderList is already exist!");
 
@@ -44,10 +45,20 @@ public class CreateOrderListCommandHandler : IRequestHandler<CreateOrderListComm
 
         amount.Quantity = amount.Quantity - request.Quantity;
 
+        if (product.Unit != Domain.Enums.Unit.kg || product.Unit != Domain.Enums.Unit.mg)
+        {
+            if (request.Quantity.GetType() == typeof(int))
+            {
+                throw new CustomException(433, "O'lchami kg va mg dan boshqa maxsulotlar bo'laklab sotilmaydi!");
+            }
+        }
+
         var newOrderList = new OrderList()
         {
             ProductName = product.Name,
             Quantity = request.Quantity,
+            Volume = product.Volume,
+            Unit = product.Unit,
             Price = product.Price * request.Quantity,
             ProductId = request.ProductId,
             OrderId = request.OrderId

@@ -16,7 +16,7 @@ public class OrderListController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateAsync(CreateOrderListCommand command)
         => Ok(await this.mediator.Send(new CreateOrderListCommand(command.Quantity,
-           command.ProductId, command.OrderId)));
+        command.ProductId,command.OrderId)));
 
     [HttpPut("update")]
     public async Task<IActionResult> UpdateAsync(UpdateOrderListCommand command)

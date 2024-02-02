@@ -6,7 +6,8 @@ namespace FreshUp.Domain.Entities;
 public sealed class Product : Auditable
 {
     public string Name { get; set; }
-    public double Price { get; set; }   
+    public double Price { get; set; }
+    public double Volume { get; set; } = 0;
     public Unit Unit { get; set; }
     public string Description { get; set; }
 

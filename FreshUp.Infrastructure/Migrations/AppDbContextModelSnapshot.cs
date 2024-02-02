@@ -156,8 +156,14 @@ namespace FreshUp.Infrastructure.Migrations
                     b.Property<double>("Quantity")
                         .HasColumnType("double precision");
 
+                    b.Property<int>("Unit")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<double>("Volume")
+                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
@@ -198,6 +204,9 @@ namespace FreshUp.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<double>("Volume")
+                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 

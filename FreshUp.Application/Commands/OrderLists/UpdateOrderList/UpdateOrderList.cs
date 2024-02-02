@@ -1,10 +1,10 @@
 ﻿
+
 namespace FreshUp.Application.Commands.OrderLists.UpdateOrderList;
 
 public record UpdateOrderListCommand : IRequest<OrderList>
 {
-    public UpdateOrderListCommand(long id, double quantity, 
-        long productId, long orderId)
+    public UpdateOrderListCommand(long id, double quantity, long productId, long orderId)
     {
         Id = id;
         Quantity = quantity;
@@ -46,8 +46,18 @@ public class UpdateOrderListCommandHandler : IRequestHandler<UpdateOrderListComm
 
         amount.Quantity -= request.Quantity;
 
+        if (product.Unit != Domain.Enums.Unit.kg || product.Unit != Domain.Enums.Unit.mg)
+        {
+            if (request.Quantity.GetType() == typeof(int))
+            {
+                throw new CustomException(433, "O'lchami kg va mg dan boshqa maxsulotlar bo'laklab sotilmaydi!");
+            }
+        }
+
         orderList.ProductName = product.Name;
         orderList.Quantity = request.Quantity;
+        orderList.Volume = product.Volume;
+        orderList.Unit = product.Unit;
         orderList.Price = product.Price * request.Quantity;
         orderList.ProductId = request.ProductId;
         orderList.OrderId = request.OrderId;
